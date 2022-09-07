@@ -12,5 +12,7 @@ build-type:    Simple
 cabal-version: >=1.8
 
 executable xmonad-config
+  hs-source-dirs: ., lib
   main-is: config.hs
-  build-depends: base, xmonad, xmonad-contrib, containers, directory
+  build-depends: base, xmonad, xmonad-contrib, containers, directory, X11
+  other-modules: XMonad.Additions.Actions, XMonad.Additions.Keys, XMonad.Additions.Layout
