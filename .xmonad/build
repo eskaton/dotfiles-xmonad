@@ -9,7 +9,7 @@ output_file=$1; shift
 CFG_DIR="$HOME/.xmonad"
 
 if [ ! -f "$HOME/.cabal/config" ]; then
-cabal new-update
+   cabal new-update
 fi
 
 # build the config
@@ -18,14 +18,18 @@ cabal new-configure --enable-optimization --enable-executable-stripping
 cabal new-build
 
 if [ "$output_file" != "" ]; then
-# move resulting binary where it was requested to reside
-res=`find $CFG_DIR/dist-newstyle -type f -perm +111 -name $EXE_NAME`
-if [ "$res" == "" ]; then
-    return 1
-fi
-# use "mv" to be able to replace a running executable
-mv -f "$res" "$output_file"
-cp "$output_file" "$res"
+   # move resulting binary where it was requested to reside
+   res=`find $CFG_DIR/dist-newstyle -type f -name $EXE_NAME`
+
+   if [ "$res" = "" ]; then
+       exit 1
+   fi
+
+   # use "mv" to be able to replace a running executable
+   mv -f "$res" "$output_file"
+   cp "$output_file" "$res"
+
+   echo "Installed XMonad as $output_file"
 fi
 
 rm cabal.project.local
